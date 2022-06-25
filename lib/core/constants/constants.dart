@@ -8,3 +8,4 @@ List<String> fruits = [
   'strawberry',
   //'watermelon',
 ];
+String questionMarkUrl = 'assets/images/QuestionMark.png';

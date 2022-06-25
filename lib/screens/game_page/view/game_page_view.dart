@@ -14,7 +14,6 @@ class GamePage extends StatefulWidget {
 class _GamePageState extends State<GamePage> {
   @override
   void initState() {
-    // TODO: Burada kartları oluştur
     GamePageViewModel.prepareCards();
     super.initState();
   }
@@ -24,22 +23,39 @@ class _GamePageState extends State<GamePage> {
     return BlocProvider(
       create: (context) => GamePageCubit(),
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('fruits'),
-        ),
+        //appBar: AppBar(title: const Text('fruits')),
         body: Container(
-          color: Colors.red,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: GridView.builder(
-              itemCount: GamePageViewModel.fruitCards.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount:
-                      ScreenUtil().orientation == Orientation.portrait ? 3 : 4),
-              itemBuilder: (context, index) => GameCardWidget(
-                gameCard: GamePageViewModel.fruitCards[index],
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(
+            colors: [
+              Color.fromARGB(255, 35, 10, 56),
+              Color.fromARGB(255, 238, 85, 34)
+            ],
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+          )),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 150.h,
               ),
-            ),
+              Text('data'),
+              Container(
+                height: 1730.h,
+                padding: const EdgeInsets.all(8.0),
+                child: GridView.builder(
+                  itemCount: GamePageViewModel.fruitCards.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount:
+                          ScreenUtil().orientation == Orientation.portrait
+                              ? 3
+                              : 4),
+                  itemBuilder: (context, index) => GameCardWidget(
+                    gameCard: GamePageViewModel.fruitCards[index],
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
