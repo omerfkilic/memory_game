@@ -9,10 +9,6 @@ import '../../../core/models/game_card_model.dart';
 class GamePageViewModel {
   static List<GameCardModel> fruitCards = [];
   static List<GlobalKey<FlipCardState>> fruitKeys = [];
-  //List.generate(
-  //    (constant.fruits.length) * 2,
-  //    (index) => GlobalObjectKey<FlipCardState>(
-  //        constant.fruits[index % 2] + '${index ~/ 2}'));
 
   static prepareCards() {
     for (var i = 0; i < constant.fruits.length; i++) {

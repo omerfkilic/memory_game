@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GamePageCubit extends Cubit<GamePageState> {
-  GamePageCubit() : super(GamePageInitial());
+  GamePageCubit() : super(GamePageReady());
   String? firstCardName;
   String? secondCardName;
   GlobalKey<FlipCardState>? firstCardKey;
@@ -34,7 +34,7 @@ class GamePageCubit extends Cubit<GamePageState> {
 
     print(flippedCardName);
 
-    emit(GamePageFirstCardFlipped());
+    emit(GamePageReady());
   }
 
   void _secondFlip(
@@ -44,19 +44,18 @@ class GamePageCubit extends Cubit<GamePageState> {
     secondCardName = flippedCardName;
     secondCardKey = flippedCardKey;
     flippedCardKey.currentState!.toggleCard();
-    await Future.delayed(Duration(seconds: 1));
-    //const Duration(seconds: 10, minutes: 1);
+    await Future.delayed(const Duration(seconds: 1));
 
     print(flippedCardName);
     if (firstCardName == secondCardName) {
       print('Flipped Cards Correct');
-      emit(GamePageFlippedCardsCorrect());
+      emit(GamePageReady());
     } else {
       firstCardKey!.currentState!.toggleCard();
       secondCardKey!.currentState!.toggleCard();
 
       print('Flipped Cards InCorrect');
-      emit(GamePageFlippedCardsInCorrect());
+      emit(GamePageReady());
     }
     firstCardKey = null;
     firstCardName = null;
@@ -68,16 +67,8 @@ class GamePageCubit extends Cubit<GamePageState> {
 @immutable
 abstract class GamePageState {}
 
-class GamePageInitial extends GamePageState {}
-
 class GamePageReady extends GamePageState {}
 
 class GamePageLoading extends GamePageState {}
-
-class GamePageFirstCardFlipped extends GamePageState {}
-
-class GamePageFlippedCardsCorrect extends GamePageState {}
-
-class GamePageFlippedCardsInCorrect extends GamePageState {}
 
 class GamePageGameOver extends GamePageState {}

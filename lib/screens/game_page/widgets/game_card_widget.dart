@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memory_game/core/models/game_card_model.dart';
 import 'package:memory_game/screens/game_page/view_model/game_page_cubit.dart';
 import 'package:memory_game/screens/game_page/view_model/game_page_view_model.dart';
@@ -27,8 +26,8 @@ class _GameCardWidgetState extends State<GameCardWidget> {
     return BlocBuilder<GamePageCubit, GamePageState>(
       builder: (context, state) {
         return Container(
-          height: 333.h,
-          width: 333.w,
+          height: 150,
+          width: 150,
           padding: const EdgeInsets.all(4.0),
           child: FlipCard(
             //alignment: Alignment.center,
