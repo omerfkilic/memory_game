@@ -1,7 +1,18 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:memory_game/screens/game_page/view/game_page_view.dart';
 
-void main() => runApp(const MyApp());
+import 'package:memory_game/screens/home_page/view/home_page_view.dart';
+import 'package:memory_game/core/constants/constants.dart' as constants;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  runApp(EasyLocalization(
+      path: constants.localizationUrl,
+      supportedLocales: const [Locale('tr'), Locale('en')],
+      fallbackLocale: const Locale('en'),
+      child: const MyApp()));
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -9,8 +20,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Card Matching',
-      home: GamePage(),
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      debugShowCheckedModeBanner: false,
+      title: 'Memory Game',
+      home: const HomePage(),
     );
   }
 }

@@ -1,8 +1,9 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, avoid_print
 
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:memory_game/core/constants/constants.dart' as constant;
+import 'package:memory_game/screens/game_page/view_model/game_page_cubit.dart';
 
 import '../../../core/models/game_card_model.dart';
 
@@ -22,5 +23,12 @@ class GamePageViewModel {
     }
 
     fruitCards.shuffle();
+  }
+
+  static clearCache() {
+    fruitCards = [];
+    fruitKeys = [];
+    GamePageCubit().score = 0;
+    print('Cleared Cache');
   }
 }

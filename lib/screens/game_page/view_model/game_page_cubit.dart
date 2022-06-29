@@ -10,16 +10,20 @@ class GamePageCubit extends Cubit<GamePageState> {
   String? secondCardName;
   GlobalKey<FlipCardState>? firstCardKey;
   GlobalKey<FlipCardState>? secondCardKey;
+  int score = 0;
+  List<Function> removeFunctions = [];
 
-  void flipCard(
-      String flippedCardName, GlobalKey<FlipCardState> flippedCardKey) {
+  void flipCard(String flippedCardName, GlobalKey<FlipCardState> flippedCardKey,
+      Function flipCardRemoveFunction) {
     emit(GamePageLoading());
+
     if (firstCardName == null) {
+      removeFunctions.add(flipCardRemoveFunction);
       print('first time');
       _firstFlip(flippedCardName, flippedCardKey);
     } else {
       print('second time');
-
+      removeFunctions.add(flipCardRemoveFunction);
       _secondFlip(flippedCardName, flippedCardKey);
     }
   }
@@ -48,7 +52,12 @@ class GamePageCubit extends Cubit<GamePageState> {
 
     print(flippedCardName);
     if (firstCardName == secondCardName) {
-      print('Flipped Cards Correct');
+      score += 2;
+      print('Flipped Cards Correct score is $score');
+      for (var removeFunction in removeFunctions) {
+        removeFunction();
+      }
+
       emit(GamePageReady());
     } else {
       firstCardKey!.currentState!.toggleCard();
@@ -61,6 +70,10 @@ class GamePageCubit extends Cubit<GamePageState> {
     firstCardName = null;
     secondCardKey = null;
     secondCardName = null;
+    removeFunctions = [];
+    if (score == 12) {
+      emit(GamePageGameOver());
+    }
   }
 }
 

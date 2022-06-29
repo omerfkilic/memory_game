@@ -1,11 +1,14 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:memory_game/screens/game_page/view_model/game_page_cubit.dart';
 import 'package:memory_game/screens/game_page/view_model/game_page_view_model.dart';
 import 'package:memory_game/screens/game_page/widgets/game_card_widget.dart';
+import 'package:memory_game/screens/game_page/widgets/game_over_alert_dialog.dart';
+import 'package:memory_game/core/constants/constants.dart' as constants;
 
 class GamePage extends StatefulWidget {
-  GamePage({Key? key}) : super(key: key);
+  const GamePage({Key? key}) : super(key: key);
   @override
   State<GamePage> createState() => _GamePageState();
 }
@@ -13,6 +16,7 @@ class GamePage extends StatefulWidget {
 class _GamePageState extends State<GamePage> {
   @override
   void initState() {
+    GamePageViewModel.clearCache();
     GamePageViewModel.prepareCards();
     super.initState();
   }
@@ -21,42 +25,41 @@ class _GamePageState extends State<GamePage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => GamePageCubit(),
-      child: Scaffold(
-        body: Container(
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(255, 35, 10, 56),
-              Color.fromARGB(255, 238, 85, 34)
-            ],
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-          )),
-          child: Column(
-            children: [
-              Container(
-                alignment: Alignment.bottomCenter,
-                height: 80,
-                child: const Text(
-                  'FRUITS',
-                  style: TextStyle(fontSize: 24, color: Colors.white),
+      child: BlocListener<GamePageCubit, GamePageState>(
+        listener: (context, state) {
+          if (state is GamePageGameOver) {
+            gamePageGameOverAlertDialog(context);
+          }
+        },
+        child: Scaffold(
+          body: Container(
+            decoration: constants.backgroundDecoration,
+            child: Column(
+              children: [
+                Container(
+                  alignment: Alignment.bottomCenter,
+                  height: 80,
+                  child: Text(
+                    'fruits'.tr().toUpperCase(),
+                    style: constants.textStyleWhite,
+                  ),
                 ),
-              ),
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GridView.builder(
-                    itemCount: GamePageViewModel.fruitCards.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3),
-                    itemBuilder: (context, index) => GameCardWidget(
-                      gameCard: GamePageViewModel.fruitCards[index],
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GridView.builder(
+                      itemCount: GamePageViewModel.fruitCards.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3),
+                      itemBuilder: (context, index) => GameCardWidget(
+                        gameCard: GamePageViewModel.fruitCards[index],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
