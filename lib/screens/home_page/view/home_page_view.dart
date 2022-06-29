@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:memory_game/screens/home_page/widgets/new_game_elevated_button.dart';
 import '../../game_page/view/game_page_view.dart';
 import 'package:memory_game/core/constants/constants.dart' as constants;
 
@@ -44,7 +43,17 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 100),
             Text('memory_game'.tr(), style: constants.textStyleWhite),
             const SizedBox(height: 150),
-            const NewGameElevatedButton()
+            ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        const Color.fromARGB(255, 251, 110, 30))),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const GamePage()));
+                },
+                child: Text('play'.tr()))
           ],
         ),
       ),

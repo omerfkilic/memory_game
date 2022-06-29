@@ -49,18 +49,16 @@ class _GameCardWidgetState extends State<GameCardWidget> {
                 decoration: constants.flipCardBoxDecoration,
                 child: GestureDetector(
                   onSecondaryTap: () => false,
-                  onTap: () => {
-                    if (_enable = true)
-                      {
-                        _enable = false,
-                        if (state is! GamePageLoading)
-                          {
-                            context.read<GamePageCubit>().flipCard(
-                                widget.gameCard.cardName,
-                                _key,
-                                flipCardRemoveFunction)
-                          }
+                  onTap: () {
+                    if (_enable == true) {
+                      _enable = false;
+                      if (state is! GamePageLoading) {
+                        context.read<GamePageCubit>().flipCard(
+                            widget.gameCard.cardName,
+                            _key,
+                            flipCardRemoveFunction);
                       }
+                    }
                   },
                   child: Container(
                       margin: const EdgeInsets.all(4),
